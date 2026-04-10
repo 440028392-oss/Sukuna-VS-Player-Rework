@@ -1,13 +1,19 @@
-let sukHp =10
+let sukHp =10;
 let sukDmg = 0;
-let plyrHp = 5;
+let sukdmg = 0;
+let plyrHp = 10;
 let plyrDmg = 0;
-let dmg = 0;
+let plyrdmg = 0;
+let sukMove = 0;
 
-
-function updateHp()
+function updateSukHp()
 {
-  document.getElementById("sukHp").textContent = sukHp;
+  document.getElementById("sukHp").textContent = sukHp
+}
+
+function updatePlyrHp ()
+{
+  document.getElementById("plyrHp").textContent = plyrHp
 }
 
 function log(message)
@@ -18,49 +24,75 @@ function log(message)
   let msg=document.createElement("div")
   msg.textContent = message
 
-  logBox.appendChild(msg);
+  logBox.appendChild(msg)
 
-  setTimeout(() => {
-    msg.remove();
-  }, 2500);
+  setTimeout(() => 
+  {
+    msg.remove()
+  }, 2500)
 }
 
 
-
-
-function atk (name, baseDmg)
+function sukAtk (name, baseDmg)
 {
-  plyrDmg = Math.floor(Math.random()*5) + 1  
-  dmg =  baseDmg + plyrDmg
-  if (dmg > sukHp)
+  sukdmg = Math.floor(Math.random()*5) + 1
+  sukdmg = baseDmg + sukDmg
+  if (sukdmg > plyrHp)
   {
-    console.log("damage altered, orginal is " + dmg)
-   dmg = sukHp
+    sukdmg = plyrHp
   }
-  sukHp-=dmg
-  updateHp()
+  updatePlyrHp()
+  log("Sukuna used " + name + "!")
+  log("Sukuna dealt " + sukdmg + " damage!")
+  sukdmg = 0
+  if (plyrHp <= 0)
+  {
+    log("You died!")
+    endBattle("Battle Over...")
+    plyrHp = 10
+  }
+}
+
+function plyrAtk (name, baseDmg)
+{
+  plyrDmg = Math.floor(Math.random()*3) + 1
+  plyrdmg =  baseDmg + plyrDmg
+  if (plyrdmg > sukHp)
+  {
+    console.log("damage altered, orginal is " + plyrdmg)
+   plyrdmg = sukHp
+  }
+  sukHp-=plyrdmg
+  updateSukHp()
   log("Player used " + name + "!")
-  log("Hit for " + dmg + " damage!")
- dmg = 0
+  log("Hit for " + plyrdmg + " damage!")
+ plyrdmg = 0
   if (sukHp <= 0)
   {
     log("Sukuna died!")
-    log("Game Over, you won!")
-    sukHp+=10
+    endBattle("Battle Over!")
+    sukHp = 10
   }
+  sukMove = Math.floor(Math.random()*1) + 1
+  setTimeout (() => 
+  {
+    if (sukMove === 1)
+  {
+    sukAtk("Slash", 3)
+  } 
+  }, 3000);
 }
 
-function endGame (message)
+function endBattle (message)
 {
-  let gameOverScreen = document.getElementById("gameOverScreen")
+  let battleOverScreen = document.getElementById("battleOverScreen")
 
   let msg=document.createElement("div")
   msg.textContent = message
 
-  document.getElementById("gameUi").style.display = "none"
+  document.getElementById("battleUi").style.display = "none"
 
-
-  gameOverScreen.appendChild(msg)
+  battleOverScreen.appendChild(msg)
 
     setTimeout(() => 
   {
