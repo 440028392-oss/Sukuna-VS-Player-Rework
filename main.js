@@ -57,6 +57,9 @@ function endGame (message)
   let msg=document.createElement("div")
   msg.textContent = message
 
+  document.getElementById("gameUi").style.display = "none"
+
+
   gameOverScreen.appendChild(msg)
 
     setTimeout(() => 
